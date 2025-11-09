@@ -1,10 +1,11 @@
 package com.vekrest.repository;
 
 import com.vekrest.entity.Client;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ClientRepository {
-    List<Client> getAll();
+    Page<Client> getAll(Pageable pageable);
 
     Client save(Client client);
 

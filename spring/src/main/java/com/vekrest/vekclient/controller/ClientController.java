@@ -9,6 +9,7 @@ import com.vekrest.vekclient.controller.dto.response.ClientListResponse;
 import com.vekrest.vekclient.controller.dto.response.ClientResponse;
 import jakarta.validation.Valid;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,8 @@ public class ClientController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/client")
-    public ClientListResponse getAll() {
-        return ClientControllerAdapter.cast(repository.getAll());
+    public ClientListResponse getAll(Pageable pageable) {
+        return ClientControllerAdapter.cast(repository.getAll(pageable));
     }
 
     @ResponseStatus(HttpStatus.CREATED)

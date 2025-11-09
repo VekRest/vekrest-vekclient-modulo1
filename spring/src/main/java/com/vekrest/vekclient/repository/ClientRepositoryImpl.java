@@ -9,11 +9,11 @@ import com.vekrest.vekclient.repository.client.ClientRepositoryWithMongo;
 import com.vekrest.vekclient.repository.orm.ClientOrm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 public class ClientRepositoryImpl implements ClientRepository {
@@ -26,11 +26,11 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public List<Client> getAll() {
+    public Page<Client> getAll(Pageable pageable) {
         try {
-            List<ClientOrm> clientsOrm =  repository.findAll();
+            Page<ClientOrm> clientsOrm =  repository.findAll(pageable);
 
-            return clientsOrm.stream().map(ClientRepositoryAdapter::cast).collect(Collectors.toList());
+            return clientsOrm.map(ClientRepositoryAdapter::cast);
         } catch (Exception ex) {
             LOG.error("Erro ao recuperar clientes: {} o erro aconteceu na data/hora: {}",
                     ex.getMessage(), LocalDateTime.now());
@@ -71,8 +71,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public void delete(final String id) {
         try {
-            findById(id);
-            repository.deleteById(id);
+            repository.deleteById(findById(id).id());
         } catch (NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {

@@ -7,9 +7,8 @@ import com.vekrest.entity.Status;
 import com.vekrest.vekclient.controller.dto.request.ClientRequest;
 import com.vekrest.vekclient.controller.dto.response.ClientListResponse;
 import com.vekrest.vekclient.controller.dto.response.ClientResponse;
-import java.util.List;
+import org.springframework.data.domain.Page;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class ClientControllerAdapter {
     private ClientControllerAdapter() {
@@ -38,9 +37,19 @@ public class ClientControllerAdapter {
         );
     }
 
-    public static ClientListResponse cast(List<Client> clients) {
+    public static ClientListResponse cast(Page<Client> clientsPagination) {
         return new ClientListResponse(
-                clients.stream().map(ClientControllerAdapter::cast).collect(Collectors.toList())
+                clientsPagination.getContent(),
+                clientsPagination.getPageable(),
+                clientsPagination.isLast(),
+                clientsPagination.getTotalElements(),
+                clientsPagination.getTotalPages(),
+                clientsPagination.isFirst(),
+                clientsPagination.getSize(),
+                clientsPagination.getNumber(),
+                clientsPagination.getSort(),
+                clientsPagination.getNumberOfElements(),
+                clientsPagination.isEmpty()
         );
     }
 }
