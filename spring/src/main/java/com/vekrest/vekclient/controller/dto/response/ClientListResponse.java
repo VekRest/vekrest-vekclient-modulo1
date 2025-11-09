@@ -1,13 +1,12 @@
 package com.vekrest.vekclient.controller.dto.response;
 
-import com.vekrest.entity.Client;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
 public record ClientListResponse(
-        List<Client> content,
+        List<ClientResponse> content,
         Pageable pageable,
         boolean last,
         long totalElements,

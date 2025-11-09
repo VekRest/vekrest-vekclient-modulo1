@@ -39,7 +39,7 @@ public class ClientController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/client/{id}")
-    @Cacheable(value = "frete-cache", key = "#id")
+    @Cacheable(value = "frete-id-cache", key = "#id")
     public ClientResponse getById(@PathVariable("id") String id) {
         return ClientControllerAdapter.cast(repository.findById(id));
     }

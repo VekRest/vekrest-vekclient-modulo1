@@ -39,7 +39,9 @@ public class ClientControllerAdapter {
 
     public static ClientListResponse cast(Page<Client> clientsPagination) {
         return new ClientListResponse(
-                clientsPagination.getContent(),
+                clientsPagination.getContent().stream()
+                        .map(ClientControllerAdapter::cast)
+                        .toList(),
                 clientsPagination.getPageable(),
                 clientsPagination.isLast(),
                 clientsPagination.getTotalElements(),
