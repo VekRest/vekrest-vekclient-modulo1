@@ -25,39 +25,39 @@ public class ClientController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/client")
+    @GetMapping("/vekclient/client")
     public ClientListResponse getAll(Pageable pageable) {
         return ClientControllerAdapter.cast(repository.getAll(pageable));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/client")
+    @PostMapping("/vekclient/client")
     public ClientResponse save(@Valid @RequestBody ClientRequest request) {
         Client client = ClientControllerAdapter.cast(request);
         return ClientControllerAdapter.cast(service.register(client));
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/client/{id}")
+    @GetMapping("/vekclient/client/{id}")
     @Cacheable(value = "frete-id-cache", key = "#id")
     public ClientResponse getById(@PathVariable("id") String id) {
         return ClientControllerAdapter.cast(repository.findById(id));
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/client/activate/{id}")
+    @GetMapping("/vekclient/client/activate/{id}")
     public ClientResponse activate(@PathVariable("id") String id) {
         return ClientControllerAdapter.cast(service.switchStatus(id, true));
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/client/desactivate/{id}")
+    @DeleteMapping("/vekclient/client/desactivate/{id}")
     public ClientResponse desactivate(@PathVariable("id") String id) {
         return ClientControllerAdapter.cast(service.switchStatus(id, false));
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/client/{id}")
+    @DeleteMapping("/vekclient/client/{id}")
     public void delete(@PathVariable("id") String id) {
         repository.delete(id);
     }
