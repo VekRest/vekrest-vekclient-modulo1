@@ -1,4 +1,4 @@
-name: CI-CD Spring Boot with SonarQube and Docker Hub
+name: CI-CD Spring Boot Java with Trivy, SonarQube and Docker Hub
 
 on:
   push:
