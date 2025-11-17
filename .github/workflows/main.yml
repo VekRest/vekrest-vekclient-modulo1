@@ -84,7 +84,7 @@ jobs:
           fi
           NUM_BUGS=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: "$SONAR_URL&metricKeys=bugs" | jq -r '.component.measures[0].value')
           echo ""
-          echo "Bugs: ${NUM_BUGS}%" 
+          echo "Bugs: ${NUM_BUGS}" 
           if [ "$NUM_BUGS" -gt 2 ]; then
             echo "Aplicação contem mais de 2 bugs."
             exit 1
