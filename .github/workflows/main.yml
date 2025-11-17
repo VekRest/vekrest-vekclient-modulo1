@@ -2,13 +2,45 @@ name: CI-CD Spring Boot with SonarQube and Docker Hub
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
 jobs:
+  security:
+    name: Scan for Vulnerabilities
+    runs-on: ubuntu-latest
+  
+    steps:
+     - name: Checkout code
+       uses: actions/checkout@v3
+    
+     - name: Set up JDK 17
+       uses: actions/setup-java@v3
+       with:
+         java-version: '17'
+         distribution: 'zulu'
+    
+     - name: Build project (without tests)
+       run: mvn clean install -DskipTests
+    
+     - name: Install Trivy
+       run: |
+         curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+    
+     - name: Scan for vulnerabilities in dependencies (Maven)
+       run: |
+         trivy fs \
+           --scanners vuln \
+           --vuln-type library \
+           --severity CRITICAL,HIGH \
+           --exit-code 1 \
+           --ignore-unfixed \
+           --format table \
+           .
+           
   build-and-sonar:
-    name: Build & SonarQube Analysis
+    name: Build & SonarQube Analysis (Quality)
     runs-on: ubuntu-latest
 
     steps:
@@ -49,6 +81,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Build Projeto
+        run: mvn clean install -DskipTests
+
       - name: Build e Push da imagem Docker
         uses: docker/build-push-action@v6
         with:
@@ -56,5 +91,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USER }}/meu-spring-boot:latest
-            ${{ secrets.DOCKERHUB_USER }}/meu-spring-boot:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USER }}/vekclient:latest
+            ${{ secrets.DOCKERHUB_USER }}/vekclient:${{ github.sha }}
