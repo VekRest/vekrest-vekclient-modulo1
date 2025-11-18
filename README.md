@@ -165,6 +165,8 @@ git tag <version>
 git push origin <version>
 ```
 
+[![VekClient CI/CD Workflow](https://github.com/VekRest/vekrest-vekclient-modulo1/actions/workflows/main.yml/badge.svg)](https://github.com/VekRest/vekrest-vekclient-modulo1/actions/workflows/main.yml)
+
 ---
 
 ## 💡 Observações Importantes
