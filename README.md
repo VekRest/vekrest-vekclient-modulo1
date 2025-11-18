@@ -156,6 +156,17 @@ mvn clean install sonar:sonar -Dsonar.token={TOKEN_SONAR}
 
 5️⃣ Deploy da Release no **Github** (Release)
 
+### Para executar a Esteira pelo trigger:
+```bash
+# Exemplo: Cria a tag
+git tag <version>
+
+# Envia a tag para o repositório remoto
+git push origin <version>
+```
+
+[![VekClient CI/CD Workflow](https://github.com/VekRest/vekrest-vekclient-modulo1/actions/workflows/main.yml/badge.svg)](https://github.com/VekRest/vekrest-vekclient-modulo1/actions/workflows/main.yml)
+
 ---
 
 ## 💡 Observações Importantes
