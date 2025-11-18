@@ -12,7 +12,8 @@ public class ClientService {
     private final ClientRepository repository;
 
     public ClientService(
-            ClientRepository repository) {
+            ClientRepository repository
+    ) {
         this.repository = repository;
     }
 
@@ -21,12 +22,8 @@ public class ClientService {
             Client updateClient = repository.findById(client.id());
             return save(updateClient.id(), client);
         } catch (NotFoundException ex) {
-            return save(client);
+            return save(client.id(), client);
         }
-    }
-
-    private Client save(Client client) {
-        return save(client.id(), client);
     }
 
     private Client save(final String id, Client client) {

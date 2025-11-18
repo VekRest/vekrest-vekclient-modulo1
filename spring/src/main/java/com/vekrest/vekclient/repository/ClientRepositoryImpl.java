@@ -33,8 +33,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 
             return ClientRepositoryAdapter.cast(pageClientOrm);
         } catch (Exception ex) {
-            LOG.error("Erro ao recuperar clientes: {} o erro aconteceu na data/hora: {}",
-                    ex.getMessage(), LocalDateTime.now());
+            LOG.error("Erro ao recuperar clientes: {} o erro aconteceu na data/hora: {}", ex.getMessage(), LocalDateTime.now());
             throw new InternalServerException(ex);
         }
     }
@@ -43,10 +42,10 @@ public class ClientRepositoryImpl implements ClientRepository {
     public Client save(Client client) {
         try {
             ClientOrm orm = ClientRepositoryAdapter.cast(client);
+
             return ClientRepositoryAdapter.cast(repository.save(orm));
         } catch (Exception ex) {
-            LOG.error("Erro ao salvar cliente: {} o erro aconteceu na data/hora: {}",
-                    ex.getMessage(), LocalDateTime.now());
+            LOG.error("Erro ao salvar cliente: {} o erro aconteceu na data/hora: {}", ex.getMessage(), LocalDateTime.now());
             throw new InternalServerException(ex);
         }
     }
@@ -55,16 +54,17 @@ public class ClientRepositoryImpl implements ClientRepository {
     public Client findById(final String id) {
         try {
             Optional<ClientOrm> optional = repository.findById(id);
+
             if (optional.isEmpty()) {
                 throw new NotFoundException("Cliente nao encontrado");
             }
-            return ClientRepositoryAdapter.cast(
-                    repository.save(optional.get()));
+
+            return ClientRepositoryAdapter.cast(repository.save(optional.get()));
         } catch (NotFoundException ex) {
+            LOG.error("Cliente nao encontrado por id: {} o erro aconteceu na data/hora: {}", ex.getMessage(), LocalDateTime.now());
             throw ex;
         } catch (Exception ex) {
-            LOG.error("Erro ao procurar cliente por id: {} o erro aconteceu na data/hora: {}",
-                    ex.getMessage(), LocalDateTime.now());
+            LOG.error("Erro ao procurar cliente por id: {} o erro aconteceu na data/hora: {}", ex.getMessage(), LocalDateTime.now());
             throw new InternalServerException(ex);
         }
     }
@@ -74,10 +74,10 @@ public class ClientRepositoryImpl implements ClientRepository {
         try {
             repository.deleteById(findById(id).id());
         } catch (NotFoundException ex) {
+            LOG.error("Cliente nao encontrado para deletar: {} o erro aconteceu na data/hora: {}", ex.getMessage(), LocalDateTime.now());
             throw ex;
         } catch (Exception ex) {
-            LOG.error("Erro ao deletar cliente: {} o erro aconteceu na data/hora: {}",
-                    ex.getMessage(), LocalDateTime.now());
+            LOG.error("Erro ao deletar cliente: {} o erro aconteceu na data/hora: {}", ex.getMessage(), LocalDateTime.now());
             throw new InternalServerException(ex);
         }
     }

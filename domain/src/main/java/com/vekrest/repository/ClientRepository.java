@@ -4,11 +4,11 @@ import com.vekrest.entity.Client;
 import com.vekrest.entity.Pagination;
 
 public interface ClientRepository {
-    Pagination<Client> getAll(int pageNumber, int pageSize);
+    Pagination<Client> getAll(final int pageNumber, final int pageSize);
 
     Client save(Client client);
 
-    Client findById(String id);
+    Client findById(final String id);
 
-    void delete(String id);
+    void delete(final String id);
 }
