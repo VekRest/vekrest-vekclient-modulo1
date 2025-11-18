@@ -45,6 +45,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Build with Maven (without tests)
+        run: mvn clean install -DskipTests
+
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v5.0.0
