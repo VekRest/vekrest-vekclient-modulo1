@@ -59,18 +59,22 @@ No seu docker-compose, adicione todas as imagens utilizadas (banco de dados, Gra
 - **Java** → Linguagem de programação
 - **Maven** → Build
 - **Docker** → Containers e virtualização
+- **Docker Hub** → Repositório de imagens Docker
 - **MongoDB** → Persistência de dados
 - **Redis** → Cache
 - **OpenSearch e Graylog** → Logs da Aplicação
 - **Swagger** → Documentação da API
 - **SonarQube** → Qualidade
 - **Github Actions** → CI/CD automatizado
+- **.bat** → Scripts para automatizar processos no Windows
 
 ---
 
 ## ✨ Deploy (DockerHub)
 
 > A imagem desta aplicação é atualizada a cada atualização na [branch main](https://github.com/VekRest/vekrest-vekclient-modulo1/tree/main)
+
+> Link da imagem no DockerHub: [vek03/vekrest-vekclient:latest](https://hub.docker.com/repository/docker/vek03/vekrest-vekclient)
 
 ---
 
@@ -79,14 +83,16 @@ No seu docker-compose, adicione todas as imagens utilizadas (banco de dados, Gra
 > Este projeto tem qualidade analisada pelo SonarQube Cloud. Verifique nos badges!
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=alert_status&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
-
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=bugs&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
-
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=code_smells&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
-
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=coverage&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
-
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=duplicated_lines_density&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=ncloc&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=reliability_rating&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=security_rating&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=sqale_index&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=sqale_rating&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=vulnerabilities&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
 
 ---
 
@@ -96,9 +102,20 @@ No seu docker-compose, adicione todas as imagens utilizadas (banco de dados, Gra
 ```bash
 # Clonar
 git clone https://github.com/VekRest/vekrest-vekclient-modulo1.git
+
+# Acesse a pasta do projeto
+cd vekrest-vekclient-modulo1
 ````
 
-### 2️⃣ Rode o projeto na sua IDE de preferência
+### 2️⃣ Suba os containers necessários e Rode o projeto na sua IDE de preferência
+```bash
+# Suba os containers necessários (MongoDB, Redis, OpenSearch, Graylog)
+docker-compose up -d
+
+# Agora abra o projeto na sua IDE (IntelliJ, Eclipse, VSCode, etc) e rode a aplicação Spring Boot
+# Ou, se preferir, rode via terminal com properties-local:
+mvn spring-boot:run -pl spring -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=local"
+```
 
 ### 3️⃣ (Opcional) Alternativamente, se quiser rodar via container localmente:
 ```bash
@@ -108,6 +125,9 @@ mvn clean package -DskipTests
 # Agora faça deploy no Docker local:
 docker build -t vek03/vekrest-vekclient:latest .
 ```
+
+> Ou execute o script .bat (executar_tudo.bat) na pasta .commands para automatizar o processo.
+
 
 > A API Rest VekClient fica dispoível na porta 8082 do [Localhost](http://localhost:4200) ao rodar localmente via IDE.
 
@@ -127,9 +147,7 @@ mvn clean install sonar:sonar -Dsonar.token={TOKEN_SONAR}
 
 ---
 
-## ✍️ Autores
-
-**Projeto desenvolvido por:**
+## ✍️ Autor
 
 <div align="center">
 
