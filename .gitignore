@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### LOGs E .BATs ###
+/.commands/logs-bat/
+
 ### STS ###
 .apt_generated
 .classpath
