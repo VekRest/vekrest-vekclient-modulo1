@@ -11,6 +11,8 @@ jobs:
   vulnerabilities-scan:
     name: Scan for Vulnerabilities (Security)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
   
     steps:
      - name: Checkout code
@@ -44,6 +46,8 @@ jobs:
     name: Build & SonarCloud Analysis (Quality)
     needs: vulnerabilities-scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout código
@@ -102,6 +106,8 @@ jobs:
     name: Build & Push Docker Image (Deploy)
     needs: build-and-sonar
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout código
