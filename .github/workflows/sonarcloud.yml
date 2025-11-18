@@ -20,4 +20,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
         with:
+          args:
+            -Dsonar.projectKey=vekclient
+            -Dsonar.organization=vekrest
           projectBaseDir: .
