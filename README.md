@@ -140,10 +140,37 @@ mvn clean install sonar:sonar -Dsonar.token={TOKEN_SONAR}
 
 ---
 
+## 📦 Esteira CI/CD Automatizada com Github Actions
+
+> A esteira CI/CD deste projeto é automatizada via Github Actions. A cada tag criada ou execução manual na branch main, a esteira é disparada.
+
+###  Steps da esteira:
+
+1️⃣ Verificação de **Vulnerabilidades** com o **Trivy** (Security)
+
+2️⃣ Análise do **Sonar Cloud** (Quality)
+
+3️⃣ Deploy da imagem do container no **DockerHub e Github Packages** (Deploy)
+
+4️⃣ Deploy do Maven Artifact no **Github Packages** (Deploy)
+
+5️⃣ Deploy da Release no **Github** (Release)
+
+---
+
 ## 💡 Observações Importantes
 
 * Este projeto cumpre com o **Módulo 1 da Atividade**
 * Para este módulo, existe apenas **esta aplicação**
+
+---
+
+## Postman Collection
+
+> Link para download da coleção Postman utilizada nos testes da API: [Postman Collection VekRest VekClient Módulo 1](https://web.postman.co/workspace/My-Workspace~e702bcc2-18e9-41e7-86d7-21df963c99df/folder/33703402-f59218e7-8804-436c-8866-2693c75b9eb6?action=share&source=copy-link&creator=33703402&ctx=documentation)
+
+> Alternativamente, você pode utilizar o Swagger UI para testar a API:
+[Swagger UI VekRest VekClient Módulo 1](http://localhost:8082/vekrest/vekclient/swagger-ui/index.html) (rodando localmente)
 
 ---
 
