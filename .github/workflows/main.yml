@@ -2,10 +2,13 @@ name: VekClient CI/CD Workflow
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - 'v*'
   workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   vulnerabilities-scan:
@@ -42,7 +45,7 @@ jobs:
            --format table \
            .
            
-  build-and-sonar:
+  sonarcloud-analysis:
     name: SonarCloud Analysis (Quality)
     needs: vulnerabilities-scan
     runs-on: ubuntu-latest
@@ -92,9 +95,9 @@ jobs:
             # exit 1
           fi
 
-  docker-publish:
+  dockerhub-publish:
     name: Publish Docker Image (DockerHub)
-    needs: build-and-sonar
+    needs: sonarcloud-analysis
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -124,7 +127,7 @@ jobs:
 
   github-packages-maven-publish:
     name: Publish Maven Image (Github Pages)
-    needs: build-and-sonar
+    needs: sonarcloud-analysis
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -149,3 +152,108 @@ jobs:
         run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
+  github-packages-docker-publish:
+    name: Publish Docker Image (Github Pages)
+    needs: sonarcloud-analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v3.5.0
+        with:
+          cosign-release: 'v2.2.4'
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.0.0
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3.0.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5.0.0
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build with Maven (without tests)
+        run: mvn clean install -DskipTests
+
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+  create-release:
+    name: Criar Release e Gerar Changelog
+    needs: [dockerhub-publish, github-packages-maven-publish, github-packages-docker-publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+
+    steps:
+      - name: ⬇️ Checkout do Código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Gerar Corpo da Release com Logs
+        id: generate_changelog
+        run: |
+          CURRENT_TAG=${{ github.ref_name }}
+          
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 "$CURRENT_TAG^" 2>/dev/null || echo "")
+          
+          echo "Tag Atual: $CURRENT_TAG"
+          echo "Tag Anterior: $PREVIOUS_TAG"
+          if [ -z "$PREVIOUS_TAG" ]; then
+            LOGS=$(git log --pretty=format:"* %s (%an)" | sed 's/\([A-Za-z0-9]\{7\}\)$//')
+            echo "RELEASE_BODY<<EOF" >> $GITHUB_ENV
+            echo "### 🚀 Primeira Versão" >> $GITHUB_ENV
+            echo "" >> $GITHUB_ENV
+            echo "Esta é a release inicial do projeto." >> $GITHUB_ENV
+            echo "" >> $GITHUB_ENV
+            echo "$LOGS" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            LOGS=$(git log $PREVIOUS_TAG..$CURRENT_TAG --pretty=format:"* %s (%an)" | sed 's/\([A-Za-z0-9]\{7\}\)$//')
+            echo "RELEASE_BODY<<EOF" >> $GITHUB_ENV
+            echo "### 🛠️ Logs de Mudanças ($PREVIOUS_TAG -> $CURRENT_TAG)" >> $GITHUB_ENV
+            echo "" >> $GITHUB_ENV
+            echo "$LOGS" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          fi
+          
+      - name: Criar GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          body: ${{ env.RELEASE_BODY }}
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+          token: ${{ secrets.GITHUB_TOKEN }}
