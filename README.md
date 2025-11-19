@@ -6,13 +6,37 @@ Ele foi desenvolvido como a entrega do 1° módulo do projeto completo. Para o 1
 
 ---
 
-## ✨ Imagem Docker (DockerHub)
+# 1.✨ Imagem Docker (DockerHub)
 
 > A imagem desta aplicação é atualizada a cada nova tag ou pull request na [branch main](https://github.com/VekRest/vekrest-vekclient-modulo1/tree/main)
 
 > Link da imagem no DockerHub: [vek03/vekrest-vekclient:latest](https://hub.docker.com/repository/docker/vek03/vekrest-vekclient)
 
-## 🐳 Como rodar o container
+---
+
+## 1.1🧩 Containers necessários para rodar a aplicação:
+
+| Container | Imagem | Link                                                                                                                                           | 
+|---|---|------------------------------------------------------------------------------------------------------------------------------------------------|
+| MongoDB | `mongo:latest` | https://hub.docker.com/_/mongo                                                                                                                 |
+| Redis | `redis:latest` | https://hub.docker.com/_/redis                                                                                                                 |
+| OpenSearch | `opensearchproject/opensearch:2.4.0` | https://hub.docker.com/layers/opensearchproject/opensearch/2.4.0/images/sha256-c8681472b70d46e7de61fe770d288a972f84b3f122f3c74ca06ea525264b6fd5 |
+| Graylog | `graylog/graylog:5.1.5` | https://hub.docker.com/layers/graylog/graylog/5.1.5/images/sha256-3b6967572e88731eacfa661e6d7ca41da3e259bc5eb041e58fb10e4deb823dcb             |
+
+---
+
+## 1.2 ⚙ Variáveis de ambiente necessárias para rodar o container:
+
+| Variável                  | Descrição                                  | Exemplo                      |
+|---------------------------|--------------------------------------------|------------------------------|
+| `SERVER_PORT`             | Porta onde a aplicação irá rodar           | `8082`                      |
+| `REDIS_HOST`              | Host do Redis                              | `redis`                     |
+| `REDIS_PORT`              | Porta do Redis                             | `6379`                      |
+| `MONGODB_URI`             | URI de conexão do MongoDB                  | `mongodb://mongodb:27017/vekrest?serverSelectionTimeoutMs=15000&connectTimeoutMS=15000` |
+
+---
+
+## 1.3🐳 Como rodar o container
 
 1️⃣ Para baixar a imagem do Docker Hub:
 ```bash
