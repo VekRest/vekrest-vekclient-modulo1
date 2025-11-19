@@ -18,8 +18,6 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
-.run/Sonar-Remote.run.xml
-.run/Sonar.run.xml
 *.iws
 *.iml
 *.ipr
