@@ -1,6 +1,6 @@
 # 🧬 Projeto VekRest - VekClient - Módulo 1
 
-Este é o cliente do projeto VekRest, um CRUD de clientes utilizando MongoDB, Redis, OpenSearch e Graylog. Este projeto utiliza conteinerização em **Docker**, build **Maven** e **Spring Boot Java**.  
+Este é o cliente do projeto VekRest, um CRUD de clientes/pessoas. Este projeto utiliza conteinerização em **Docker**, persistência com **MongoDB**, cache com **Redis**, build **Maven**, logs com **OpenSearch** e **Graylog** e **Spring Boot Java**.  
 
 Ele foi desenvolvido como a entrega do 1° módulo do projeto completo. Para o 1° módulo, temos apenas esta aplicação cliente.
 
@@ -12,6 +12,7 @@ Ele foi desenvolvido como a entrega do 1° módulo do projeto completo. Para o 1
 
 📂 vekrest-vekclient-modulo1/
 ├── 📁 .commands                            ← Pasta de comandos .bat para automatizar na execução/build
+├── 📁 .github                                  ← Pasta de configuração da esteira CI/CD do Github Actions
 ├── 📁 .run                                 ← Pasta de configurações da IDE para facilitar execução local
 ├── 📁 domain                               ← Módulo de domínio, construído unicamente com o Java, sem dependências do Spring
     ├── 📁 [...]/java                       ← Pasta princípal do projeto (Domínio)
@@ -83,6 +84,9 @@ No seu docker-compose, adicione todas as imagens utilizadas (banco de dados, Gra
 
 > Este projeto tem qualidade analisada pelo SonarQube Cloud. Verifique nos badges!
 
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg)](https://sonarcloud.io/summary/new_code?id=vekclient)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=vekclient&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=alert_status&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=bugs&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=vekclient&metric=code_smells&token=a573f3b8fb7f26a26cc71c5bb7b6806634231453)](https://sonarcloud.io/summary/new_code?id=vekclient)
@@ -108,7 +112,7 @@ git clone https://github.com/VekRest/vekrest-vekclient-modulo1.git
 cd vekrest-vekclient-modulo1
 ````
 
-### 2️⃣ Suba os containers necessários e Rode o projeto na sua IDE de preferência
+### 2️⃣ Suba os containers necessários e Rode o projeto na sua IDE de preferência (ou via comando Maven)
 ```bash
 # Suba os containers necessários (MongoDB, Redis, OpenSearch, Graylog)
 docker-compose up -d
@@ -124,7 +128,7 @@ mvn spring-boot:run -pl spring -Dspring-boot.run.jvmArguments="-Dspring.profiles
 mvn clean package -DskipTests
 
 # Agora faça deploy no Docker local:
-docker build -t vek03/vekrest-vekclient:latest .
+docker build -t vekrest/vekclient:latest .
 
 # Descomente as últimas linhas do docker-compose.yml (relacionadas ao vekclient) e rode:
 docker-compose up -d
@@ -133,7 +137,7 @@ docker-compose up -d
 > Ou execute o script .bat (executar_tudo.bat) na pasta .commands para automatizar o processo.
 
 
-> A API Rest VekClient fica dispoível na porta 8082 do [Localhost](http://localhost:4200) ao rodar localmente via IDE.
+> A API Rest VekClient fica disponível na porta 8082 do [Localhost](http://localhost:8082) ao rodar localmente via IDE.
 
 ### 4️⃣ (Opcional) Caso deseje, pode rodar o SonarQube localmente
 
@@ -182,7 +186,7 @@ git push origin <version>
 
 ## Postman Collection
 
-> Link para download da coleção Postman utilizada nos testes da API: [Postman Collection VekRest VekClient Módulo 1](https://web.postman.co/workspace/My-Workspace~e702bcc2-18e9-41e7-86d7-21df963c99df/folder/33703402-f59218e7-8804-436c-8866-2693c75b9eb6?action=share&source=copy-link&creator=33703402&ctx=documentation)
+> Link para download da coleção Postman utilizada nos testes da API: [Postman Collection VekRest](https://web.postman.co/workspace/My-Workspace~e702bcc2-18e9-41e7-86d7-21df963c99df/folder/33703402-f59218e7-8804-436c-8866-2693c75b9eb6?action=share&source=copy-link&creator=33703402&ctx=documentation)
 
 > Alternativamente, você pode utilizar o Swagger UI para testar a API:
 [Swagger UI VekRest VekClient Módulo 1](http://localhost:8082/vekrest/vekclient/swagger-ui/index.html) (rodando localmente)
