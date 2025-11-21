@@ -64,7 +64,7 @@ docker run -d \
 ```bash
 services:
   vekclient:
-    image: vekrest/vekclient:latest
+    image: vek03/vekrest-vekclient:latest
     hostname: vekclient
     container_name: vekclient
     environment:
