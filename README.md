@@ -98,7 +98,7 @@ docker-compose up -d
 
 📂 vekrest-vekclient-modulo1/
 ├── 📁 .commands                            ← Pasta de comandos .bat para automatizar na execução/build
-├── 📁 .github                                  ← Pasta de configuração da esteira CI/CD do Github Actions
+├── 📁 .github                              ← Pasta de configuração da esteira CI/CD do Github Actions
 ├── 📁 .run                                 ← Pasta de configurações da IDE para facilitar execução local
 ├── 📁 domain                               ← Módulo de domínio, construído unicamente com o Java, sem dependências do Spring
     ├── 📁 [...]/java                       ← Pasta princípal do projeto (Domínio)
