@@ -158,6 +158,19 @@ No seu docker-compose, adicione todas as imagens utilizadas (banco de dados, Gra
 
 ---
 
+## 📌 Status do Projeto
+> 🚀 Release [v1.0.0](https://github.com/VekRest/vekrest-vekclient-modulo1/tree/v1.0.0) - Primeira versão
+
+[//]: # (- 🚧 Em desenvolvimento – Release v2.0-iot-alpha)
+
+---
+
+## 📜 Licença
+> Este projeto é distribuído sob a licença GPL-3.0. Consulte o arquivo [LICENCE](LICENSE.txt)
+para mais detalhes.
+
+---
+
 ## ✨ Deploy (DockerHub)
 
 > A imagem desta aplicação é atualizada a cada atualização na [branch main](https://github.com/VekRest/vekrest-vekclient-modulo1/tree/main)
