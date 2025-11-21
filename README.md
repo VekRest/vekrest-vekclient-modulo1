@@ -106,6 +106,7 @@ docker-compose up -d
             ├── 📁 exception/               ← Exceções customizadas
             ├── 📁 repository/              ← Interface da Lógica de persistência de dados
             ├── 📁 service/                 ← Lógica de regra de negócio
+    ├── 📄 pom.xml                          ← Arquivo de Build do Maven
 ├── 📁 spring                               ← Módulo do spring (aplicação), construído com dependências do Spring
     ├── 📁 [...]/java                       ← Pasta princípal do projeto (App)
             ├── 📁 configuration/           ← Arquivos de Injeção de Dependência (@Bean)
@@ -113,9 +114,11 @@ docker-compose up -d
             ├── 📁 repository/              ← Implementação da Lógica de persistência de dados
             📄 VekclientApplication.java    ← Classe principal do Spring Boot
     ├── 📁 [...]/resources                  ← Variáveis de ambiente
+    ├── 📄 pom.xml                          ← Arquivo de Build do Maven
 ├── 📄 docker-compose.yml                   ← Configuração dos containers utilizados
 ├── 📄 Dockerfile                           ← Configuração para build e deploy no Docker
 ├── 📄 LICENCE.txt                          ← Arquivo de Licença GPL-3.0
+├── 📄 pom.xml                              ← Arquivo de Build do Maven
 ├── 📄 README.md                            ← Este arquivo de documentação
 
 ````
