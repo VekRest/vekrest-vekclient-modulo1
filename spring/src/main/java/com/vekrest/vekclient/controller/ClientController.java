@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/vekrest")
+@RequestMapping("/vekrest/vekclient")
 public class ClientController {
     private final ClientService service;
 
@@ -22,7 +22,7 @@ public class ClientController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/vekclient/client")
+    @GetMapping("/client")
     public Pagination<Client> getAll(
             @RequestParam(value = "page", defaultValue = "0") int pageNumber,
             @RequestParam(value = "size", defaultValue = "10") int pageSize
@@ -31,14 +31,14 @@ public class ClientController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/vekclient/client")
+    @PostMapping("/client")
     public ClientResponse register(@Valid @RequestBody ClientRequest request) {
         Client client = ClientControllerAdapter.cast(request);
         return ClientControllerAdapter.cast(service.register(client));
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/vekclient/client/{id}")
+    @PutMapping("/client/{id}")
     public ClientResponse update(
             @PathVariable("id") String id,
             @Valid @RequestBody ClientUpdateRequest request
@@ -48,26 +48,26 @@ public class ClientController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/vekclient/client/{id}")
+    @GetMapping("/client/{id}")
     @Cacheable(value = "frete-id-cache", key = "#id")
     public ClientResponse getById(@PathVariable("id") String id) {
         return ClientControllerAdapter.cast(service.findById(id));
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/vekclient/client/activate/{id}")
+    @GetMapping("/client/activate/{id}")
     public ClientResponse activate(@PathVariable("id") String id) {
         return ClientControllerAdapter.cast(service.switchStatus(id, true));
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/vekclient/client/desactivate/{id}")
+    @DeleteMapping("/client/desactivate/{id}")
     public ClientResponse desactivate(@PathVariable("id") String id) {
         return ClientControllerAdapter.cast(service.switchStatus(id, false));
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/vekclient/client/{id}")
+    @DeleteMapping("/client/{id}")
     public void delete(@PathVariable("id") String id) {
         service.delete(id);
     }
