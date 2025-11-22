@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/vekrest/vekclient")
+@RequestMapping("/vekrest/vekclient/v1")
 public class ClientController {
     private final ClientService service;
 
