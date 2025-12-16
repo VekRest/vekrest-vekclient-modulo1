@@ -17,7 +17,8 @@ public class ClientControllerAdapter {
                 client.id(),
                 client.name(),
                 client.birth().toString(),
-                client.address()
+                client.address(),
+                client.status().getDescricao()
         );
     }
 
@@ -44,7 +45,7 @@ public class ClientControllerAdapter {
                         request.address().cep(),
                         State.porUf(request.address().state().toString())
                 ) : null,
-                null,
+                request.status(),
                 false
         );
     }

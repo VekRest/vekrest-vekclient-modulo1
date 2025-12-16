@@ -1,8 +1,8 @@
 package com.vekrest.vekclient.entity;
 
 public enum Status {
-    EM_ANALISE("EM ANALISE"),
-    APROVADO("APROVADO");
+    EM_ANALISE("Em Análise"),
+    APROVADO("Aprovado");
 
     private final String descricao;
 

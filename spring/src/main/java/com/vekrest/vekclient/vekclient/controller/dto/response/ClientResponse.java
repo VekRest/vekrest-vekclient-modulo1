@@ -6,6 +6,7 @@ public record ClientResponse(
         String id,
         String name,
         String birth,
-        Address address
+        Address address,
+        String status
 ) {
 }

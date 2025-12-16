@@ -44,7 +44,7 @@ public class ClientController {
             @Valid @RequestBody ClientUpdateRequest request
     ) {
         Client client = ClientControllerAdapter.cast(request, id);
-        return ClientControllerAdapter.cast(repository.save(client));
+        return ClientControllerAdapter.cast(repository.update(client));
     }
 
     @ResponseStatus(HttpStatus.OK)

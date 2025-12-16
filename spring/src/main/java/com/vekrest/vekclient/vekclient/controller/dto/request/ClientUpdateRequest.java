@@ -1,6 +1,7 @@
 package com.vekrest.vekclient.vekclient.controller.dto.request;
 
 import com.vekrest.vekclient.entity.Address;
+import com.vekrest.vekclient.entity.Status;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +17,8 @@ public record ClientUpdateRequest(
         LocalDate birth,
 
         @Valid
-        Address address
-) {
-}
+        Address address,
+
+        @Valid
+        Status status
+) {}

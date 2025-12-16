@@ -55,6 +55,34 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
+    public Client update(Client client) {
+        try {
+            LOG.info("Atualizando cliente na data/hora: {}", LocalDateTime.now());
+
+            Client oldClient = this.findById(client.id());
+
+            ClientOrm orm = ClientRepositoryAdapter.cast(
+                    new Client(
+                            client.id(),
+                            client.name() == null ? oldClient.name() : client.name(),
+                            client.birth() == null ? oldClient.birth() : client.birth(),
+                            client.address() == null ? oldClient.address() : client.address(),
+                            client.status() == null ? oldClient.status() : client.status(),
+                            oldClient.isDeleted()
+                    )
+            );
+
+            return ClientRepositoryAdapter.cast(repository.save(orm));
+        } catch (NotFoundException ex) {
+            LOG.error("Cliente nao encontrado para atualizar: {} o erro aconteceu na data/hora: {}", ex.getMessage(), LocalDateTime.now());
+            throw ex;
+        } catch (Exception ex) {
+            LOG.error("Erro ao atualizar cliente: {} o erro aconteceu na data/hora: {}", ex.getMessage(), LocalDateTime.now());
+            throw new InternalServerException(ex);
+        }
+    }
+
+    @Override
     public Client findById(final String id) {
         try {
             LOG.info("Procurando cliente por id: {} na data/hora: {}", id, LocalDateTime.now());

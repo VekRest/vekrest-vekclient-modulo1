@@ -8,6 +8,8 @@ public interface ClientRepository {
 
     Client save(Client client);
 
+    Client update(Client client);
+
     Client findById(final String id);
 
     void delete(final String id);

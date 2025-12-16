@@ -1,7 +1,6 @@
 package com.vekrest.vekclient.vekclient;
 
 import com.vekrest.vekclient.repository.ClientRepository;
-import com.vekrest.vekclient.service.ClientService;
 import com.vekrest.vekclient.vekclient.repository.client.ClientRepositoryWithMongo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,9 +15,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 class VekclientApplicationTests {
 	@MockitoBean
 	private MongoTemplate mongoTemplate;
-
-	@MockitoBean
-	private ClientService clientService;
 
 	@MockitoBean
 	private ClientRepository clientRepositoryInterface;

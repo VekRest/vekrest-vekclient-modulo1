@@ -9,6 +9,6 @@ import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface ClientRepositoryWithMongo extends MongoRepository<ClientOrm, String> {
-    @Query("{ 'status': 'ATIVO' }")
+    @Query("{ 'isDeleted': false }")
     Page<ClientOrm> findAllByStatusAtivo(Pageable pageable);
 }
