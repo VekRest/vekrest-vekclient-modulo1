@@ -2,7 +2,7 @@ package com.vekrest.vekclient.vekclient.controller;
 
 import com.vekrest.vekclient.entity.Client;
 import com.vekrest.vekclient.entity.Pagination;
-import com.vekrest.vekclient.service.ClientService;
+import com.vekrest.vekclient.repository.ClientRepository;
 import com.vekrest.vekclient.vekclient.controller.adapter.ClientControllerAdapter;
 import com.vekrest.vekclient.vekclient.controller.dto.request.ClientRequest;
 import com.vekrest.vekclient.vekclient.controller.dto.request.ClientUpdateRequest;
@@ -13,12 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/vekrest/vekclient/v1")
+@RequestMapping("/v1")
 public class ClientController {
-    private final ClientService service;
+    private final ClientRepository repository;
 
-    public ClientController(ClientService service) {
-        this.service = service;
+    public ClientController(ClientRepository repository) {
+        this.repository = repository;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -27,14 +27,14 @@ public class ClientController {
             @RequestParam(value = "page", defaultValue = "0") int pageNumber,
             @RequestParam(value = "size", defaultValue = "10") int pageSize
     ) {
-        return ClientControllerAdapter.cast(service.getAll(pageNumber, pageSize));
+        return ClientControllerAdapter.cast(repository.getAll(pageNumber, pageSize));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/client")
     public ClientResponse register(@Valid @RequestBody ClientRequest request) {
         Client client = ClientControllerAdapter.cast(request);
-        return ClientControllerAdapter.cast(service.register(client));
+        return ClientControllerAdapter.cast(repository.save(client));
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -43,32 +43,20 @@ public class ClientController {
             @PathVariable("id") String id,
             @Valid @RequestBody ClientUpdateRequest request
     ) {
-        Client client = ClientControllerAdapter.cast(request);
-        return ClientControllerAdapter.cast(service.update(id, client));
+        Client client = ClientControllerAdapter.cast(request, id);
+        return ClientControllerAdapter.cast(repository.save(client));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/client/{id}")
     @Cacheable(value = "frete-id-cache", key = "#id")
     public ClientResponse getById(@PathVariable("id") String id) {
-        return ClientControllerAdapter.cast(service.findById(id));
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/client/activate/{id}")
-    public ClientResponse activate(@PathVariable("id") String id) {
-        return ClientControllerAdapter.cast(service.switchStatus(id, true));
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/client/desactivate/{id}")
-    public ClientResponse desactivate(@PathVariable("id") String id) {
-        return ClientControllerAdapter.cast(service.switchStatus(id, false));
+        return ClientControllerAdapter.cast(repository.findById(id));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/client/{id}")
     public void delete(@PathVariable("id") String id) {
-        service.delete(id);
+        repository.delete(id);
     }
 }

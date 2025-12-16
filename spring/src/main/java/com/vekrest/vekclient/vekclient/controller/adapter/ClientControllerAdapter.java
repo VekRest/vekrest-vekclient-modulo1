@@ -30,20 +30,22 @@ public class ClientControllerAdapter {
                     request.address().cep(),
                     State.porUf(request.address().state().toString())
                 ),
-                Status.ATIVO
+                Status.EM_ANALISE,
+                false
         );
     }
 
-    public static Client cast(ClientUpdateRequest request) {
+    public static Client cast(ClientUpdateRequest request, String id) {
         return new Client(
-                null,
+                id,
                 request.name(),
                 request.birth(),
                 request.address() != null ? new Address(
                         request.address().cep(),
                         State.porUf(request.address().state().toString())
                 ) : null,
-                null
+                null,
+                false
         );
     }
 

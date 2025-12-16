@@ -7,5 +7,6 @@ public record Client(
         String name,
         LocalDate birth,
         Address address,
-        Status status
+        Status status,
+        boolean isDeleted
 ) {}

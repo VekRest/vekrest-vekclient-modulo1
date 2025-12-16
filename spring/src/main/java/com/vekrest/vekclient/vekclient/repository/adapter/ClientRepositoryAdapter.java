@@ -17,7 +17,8 @@ public class ClientRepositoryAdapter {
                 client.name(),
                 client.birth(),
                 cast(client.address()),
-                client.status()
+                client.status(),
+                client.isDeleted()
         );
     }
 
@@ -27,7 +28,8 @@ public class ClientRepositoryAdapter {
                 clientOrm.name(),
                 clientOrm.birth(),
                 cast(clientOrm.address()),
-                clientOrm.status()
+                clientOrm.status(),
+                clientOrm.isDeleted()
         );
     }
 

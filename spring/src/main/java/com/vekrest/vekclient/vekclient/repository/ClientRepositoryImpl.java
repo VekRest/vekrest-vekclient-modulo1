@@ -78,9 +78,19 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public void delete(final String id) {
         try {
-            LOG.info("Deletando cliente por id: {} na data/hora: {}", id, LocalDateTime.now());
+            LOG.info("Deletando lógicamente o cliente por id: {} na data/hora: {}", id, LocalDateTime.now());
 
-            repository.deleteById(findById(id).id());
+            Client client = this.findById(id);
+            this.save(
+                    new Client(
+                            client.id(),
+                            client.name(),
+                            client.birth(),
+                            client.address(),
+                            client.status(),
+                            true
+                    )
+            );
         } catch (NotFoundException ex) {
             LOG.error("Cliente nao encontrado para deletar: {} o erro aconteceu na data/hora: {}", ex.getMessage(), LocalDateTime.now());
             throw ex;

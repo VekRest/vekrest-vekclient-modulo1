@@ -12,6 +12,7 @@ public record ClientOrm(
         String name,
         LocalDate birth,
         AddressOrm address,
-        Status status
+        Status status,
+        boolean isDeleted
 ) {
 }
