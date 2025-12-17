@@ -88,7 +88,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/vekrest/vekclient/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8082/vekrest/vekclient/actuator/health || exit 1"]
       interval: 5s
       timeout: 15s
       retries: 10
